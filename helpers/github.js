@@ -4,7 +4,7 @@ const config = require('../config.js');
 
 const API_URL = 'https://api.github.com/users/';
 
-let getReposByUsername = (userName) => {
+let getReposByUsername = (userName, callback) => {
   // TODO - Use the request module to request repos for a specific
   // user from the github API
 
@@ -15,16 +15,20 @@ let getReposByUsername = (userName) => {
   }
   let options = {
     method: 'get',
-    url: `${API_URL}${userName}`,
-    responseType: 'json'
-   /*  headers: {
+    url: `${API_URL}${userName}/repos`,
+    responseType: 'json',
+    headers: {
       'User-Agent': 'request',
       'Authorization': `token ${config.TOKEN}`
-    } */
+    }
   };
+  console.log('helper function', options);
 
-  return axios(options);
+  return axios(options)
+  .then((response) => callback(null, response.data))
+  .catch((err) => callback(err));
 }
 /* getReposByUsername('koneru123')
-.then((results) => console.log('results',results)); */
+.then((results) => {console.log('results',results.data)})
+.catch((err) => {console.log('failed with err', err)}) */
 module.exports.getReposByUsername = getReposByUsername;

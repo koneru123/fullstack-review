@@ -27,19 +27,20 @@ let testRepo = new Repo({id: 2, name:"priyanka", repos_url: 'hello.com', repo_de
 
 
 
-let save = (repos) => {
+let save = (repos, callback) => {
   // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
   if(!repos) {
     return;
   }
-  return Repo.insertMany(repos)
-
+  Repo.insertMany(repos)
+  .then((res) => callback(res.length))
+  .catch((err) => { console.log('error')})
 }
 
-save(testRepo)
+/* save(testRepo)
 .then(() => { console.log('success')})
-.catch(() => { console.log('error')})
+.catch(() => { console.log('error')}) */
 
 module.exports.save = save;

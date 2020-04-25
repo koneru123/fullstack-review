@@ -17,9 +17,11 @@ class App extends React.Component {
 
   onSearch (term) {
     console.log(`${term} was searched`);
-    axios.post('/repos', {term})
-      .then(function(res) {
-        console.log(res);
+    axios.post('/repos', {'text': term})
+      .then(function(data) {
+        this.setState({
+          repos: data
+        });
       })
       .catch(function(err) {
         console.log(err);
